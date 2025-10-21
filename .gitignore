@@ -1,0 +1,42 @@
+# Python ve Streamlit ortam dosyaları
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.DS_Store
+.env
+.venv/
+venv/
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# Derleme ve cache dosyaları
+build/
+dist/
+*.egg-info/
+.cache/
+.huggingface/
+
+# Streamlit temp dosyaları
+.streamlit/
+.streamlit/secrets.toml
+
+# Model ve veri dosyaları
+*.bin
+*.pt
+*.ckpt
+
+# Mac sistem dosyaları
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Jupyter notebook checkpointleri
+*.ipynb_checkpoints/
+
+# Kişisel ayarlar
+*.env.local
+secrets.json
+token.json
