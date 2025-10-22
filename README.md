@@ -86,6 +86,15 @@ Herhangi bir kaynak veri döndürdüğünde uyarı mesajı gösterilmez ve kulla
 
 ---
 
+## 🔍 Örnek Kullanım
+
+1. `BTC-USD` için 1 aylık, 1 günlük fiyat grafiği çiz; Binance → yfinance zinciri çalışır, yahooquery yedek olarak bekler.
+2. `ETH-USD` veya `SOL-USD` gibi diğer kripto çiftlerini gir; otomatik olarak USDT/USDC karşılıklarına çevrilir ve grafiğe yansır.
+3. Borsa İstanbul hisseleri için `AKBNK.IS`, `THYAO.IS`, `BIMAS.IS` gibi kodları kullan; Yahoo kaynaklarından veri çekilir.
+4. Duygunu açıklayan kısa bir metin yaz, “Analiz Et” butonuna bas; duygu skorları ve (varsa) Gemini yorumu birlikte görünür.
+
+---
+
 ## 🗂️ Depo Yapısı
 
 ```
