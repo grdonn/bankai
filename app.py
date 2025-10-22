@@ -120,6 +120,7 @@ def _try_fetch_binance(ticker: str, period: str, interval: str) -> pd.DataFrame 
 @st.cache_data(ttl=300, show_spinner=False)
 def fetch_prices(ticker: str, period: str, interval: str):
     meta = {"source": None, "message": None}
+    errors = []
     prefer_binance = _binance_symbol(ticker) is not None
 
     # 0) Binance öncelik (kripto sembolleri için)
@@ -130,7 +131,7 @@ def fetch_prices(ticker: str, period: str, interval: str):
                 meta["source"] = "binance"
                 return df, meta
         except Exception as e:
-            meta["message"] = f"binance hata: {e}"
+            errors.append(f"binance hata: {e}")
 
     # 1) yfinance
     try:
@@ -160,9 +161,9 @@ def fetch_prices(ticker: str, period: str, interval: str):
                 df.index = _to_tz_naive_datetime_index(df.index)
                 meta["source"] = "yfinance"
                 return df, meta
-        #meta["message"] = "yfinance boş döndü."
-    except Exception:
-        pass
+        errors.append("yfinance boş döndü.")
+    except Exception as e:
+        errors.append(f"yfinance hata: {e}")
 
     # 2) yahooquery (bazı sürümlerde backoff_exponent yok—kullanma)
     try:
@@ -184,10 +185,9 @@ def fetch_prices(ticker: str, period: str, interval: str):
                 if not df.empty and df["close"].notna().sum() > 1:
                     meta["source"] = "yahooquery"
                     return df, meta
-        meta["message"] = None if meta["source"] else (meta["message"] or "yahooquery: veri alınamadı.")
-    except Exception:
-        if not meta["source"]:
-            meta["message"] = (meta["message"] or "yahooquery hata")
+        errors.append("yahooquery: veri alınamadı.")
+    except Exception as e:
+        errors.append(f"yahooquery hata: {e}")
 
     # 3) Binance (kripto için ek kaynak)
     try:
@@ -196,14 +196,16 @@ def fetch_prices(ticker: str, period: str, interval: str):
             meta["source"] = "binance"
             meta["message"] = None
             return df, meta
-    except Exception:
-        pass
+    except Exception as e:
+        errors.append(f"binance hata: {e}")
 
     # 4) Demo
     df = _make_demo_series(days=30, start_price=100.0)
     meta["source"] = "demo"
-    if not meta["message"]:
-        meta["message"] = "Gerçek fiyat verisine ulaşılamadı; demo seri gösteriliyor."
+    msg = " | ".join(errors)
+    if msg:
+        msg += " | "
+    meta["message"] = msg + "Gerçek fiyat verisine ulaşılamadı; demo seri gösteriliyor."
     return df, meta
 
 # ---------------- Plot ----------------
