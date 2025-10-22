@@ -1,16 +1,26 @@
+# --- Core UI & Data
 streamlit==1.39.0
 pandas==2.2.3
 numpy==1.26.4
 matplotlib==3.9.2
+pyarrow==21.0.0
+scipy==1.14.1
+
+# --- Finance
 yfinance==0.2.43
-yahooquery==2.3.7
+yahooquery==2.4.1
+lxml==6.0.2
+
+# --- NLP / HF
+transformers==4.46.3
+tokenizers==0.20.3
+torch==2.9.0
+sentencepiece==0.2.1
+safetensors==0.6.2
 vaderSentiment==3.3.2
+
+# --- Utils & APIs
 python-dotenv==1.0.1
 google-generativeai==0.8.3
 requests==2.32.3
-curl_cffi==0.6.0b9
-scipy==1.14.1
-transformers==4.44.2
-torch>=2.2.0
-sentencepiece
-safetensors
+curl-cffi>=0.10.0
